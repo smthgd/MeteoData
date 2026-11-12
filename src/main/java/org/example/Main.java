@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
+
+import org.example.service.CalculationService;
 import org.example.service.YandexWeatherService;
 
 public class Main {
@@ -14,9 +16,13 @@ public class Main {
             return;
         }
 
+        CalculationService calculationService = new CalculationService();
+
         try (YandexWeatherService service = new YandexWeatherService(key)) {
             String forecast = service.getForecast(52.37125, 4.89388);
             System.out.println(forecast);
+
+            var averageTemperature = calculationService.CalculateAverageTemperature();
         } catch (IOException e) {
             System.err.println("Не удалось выполнить запрос: " + e.getMessage());
         } catch (InterruptedException e) {
