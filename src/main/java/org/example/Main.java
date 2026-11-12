@@ -1,5 +1,9 @@
 package org.example;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +24,9 @@ public class Main {
 
         try (YandexWeatherService service = new YandexWeatherService(key)) {
             String forecast = service.getForecast(52.37125, 4.89388);
-            System.out.println(forecast);
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String prettyJson = gson.toJson(JsonParser.parseString(forecast));
+            System.out.println(prettyJson);
 
             var averageTemperature = calculationService.CalculateAverageTemperature();
         } catch (IOException e) {
