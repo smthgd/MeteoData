@@ -13,19 +13,7 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
-        String key;
-        Properties config = new Properties();
-        try (var input = Files.newInputStream(Path.of("config.properties"))) {
-            config.load(input);
-            key = config.getProperty("yandex.weather.key", "").trim();
-        } catch (IOException e) {
-            System.err.println("Не удалось прочитать config.properties. Создайте его по образцу config.properties.example.");
-            return;
-        }
-        if (key.isBlank()) {
-            System.err.println("Укажите yandex.weather.key в config.properties.");
-            return;
-        }
+        String key = GetKey();
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.weather.yandex.ru/v2/forecast?lat=52.37125&lon=4.89388"))
@@ -52,5 +40,22 @@ public class Main {
             Thread.currentThread().interrupt();
             System.err.println("Запрос прерван.");
         }
+    }
+
+    public static String GetKey() {
+        String key = "";
+        Properties config = new Properties();
+
+        try (var input = Files.newInputStream(Path.of("config.properties"))) {
+            config.load(input);
+            key = config.getProperty("yandex.weather.key", "").trim();
+        } catch (IOException e) {
+            System.err.println("Не удалось прочитать config.properties. Создайте его по образцу config.properties.example.");
+        }
+        if (key.isBlank()) {
+            System.err.println("Укажите yandex.weather.key в config.properties.");
+        }
+
+        return key;
     }
 }
