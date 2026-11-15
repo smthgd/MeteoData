@@ -33,7 +33,8 @@ public class Main {
             System.out.println("\nТекущая температура (°C):");
             System.out.println(temperature);
 
-            var averageTemperature = calculationService.CalculateAverageTemperature(forecast);
+            var severalDaysForecast = weatherService.getForecast(52.37125, 4.89388, 3);
+            var averageTemperature = calculationService.CalculateAverageTemperature(severalDaysForecast);
             System.out.println("\nСредняя дневная температура за полученные сутки прогноза (°C):");
             System.out.println(averageTemperature);
         } catch (IOException e) {
