@@ -22,13 +22,17 @@ public class Main {
 
         CalculationService calculationService = new CalculationService();
 
-        try (YandexWeatherService service = new YandexWeatherService(key)) {
-            String forecast = service.getForecast(52.37125, 4.89388);
+        try (YandexWeatherService weatherService = new YandexWeatherService(key)) {
+            var forecast = weatherService.getForecast(52.37125, 4.89388);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String prettyJson = gson.toJson(JsonParser.parseString(forecast));
             System.out.println(prettyJson);
 
+            var temperature = weatherService.getTemperature(forecast);
+            System.out.println(temperature);
+
             var averageTemperature = calculationService.CalculateAverageTemperature();
+            System.out.println(averageTemperature);
         } catch (IOException e) {
             System.err.println("Не удалось выполнить запрос: " + e.getMessage());
         } catch (InterruptedException e) {
