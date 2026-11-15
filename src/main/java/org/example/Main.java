@@ -26,12 +26,15 @@ public class Main {
             var forecast = weatherService.getForecast(52.37125, 4.89388);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String prettyJson = gson.toJson(JsonParser.parseString(forecast));
+            System.out.println("Полный ответ API с прогнозом погоды (JSON):");
             System.out.println(prettyJson);
 
             var temperature = weatherService.getTemperature(forecast);
+            System.out.println("\nТекущая температура (°C):");
             System.out.println(temperature);
 
             var averageTemperature = calculationService.CalculateAverageTemperature(forecast);
+            System.out.println("\nСредняя дневная температура за полученные сутки прогноза (°C):");
             System.out.println(averageTemperature);
         } catch (IOException e) {
             System.err.println("Не удалось выполнить запрос: " + e.getMessage());
