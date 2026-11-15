@@ -25,14 +25,27 @@ public class YandexWeatherService implements AutoCloseable {
                 .build();
     }
 
-    public String getForecast(double latitude, double longitude) throws IOException, InterruptedException {
+    public String getForecast(double latitude, double longitude)
+            throws IOException, InterruptedException {
+        return getForecast(latitude, longitude, 0);
+    }
+
+    public String getForecast(double latitude, double longitude, int limit) throws IOException, InterruptedException {
         if (!Double.isFinite(latitude) || latitude < -90 || latitude > 90
                 || !Double.isFinite(longitude) || longitude < -180 || longitude > 180) {
             throw new IllegalArgumentException("Некорректные координаты.");
         }
 
-        var uri = URI.create("https://api.weather.yandex.ru/v2/forecast?lat="
-                + latitude + "&lon=" + longitude);
+        URI uri;
+
+        if (limit == 0) {
+            uri = URI.create("https://api.weather.yandex.ru/v2/forecast?lat="
+                    + latitude + "&lon=" + longitude);
+        }
+        else{
+            uri = URI.create("https://api.weather.yandex.ru/v2/forecast?lat="
+                    + latitude + "&lon=" + longitude + "&limit="+ limit);
+        }
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
