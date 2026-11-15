@@ -31,7 +31,7 @@ public class Main {
             var temperature = weatherService.getTemperature(forecast);
             System.out.println(temperature);
 
-            var averageTemperature = calculationService.CalculateAverageTemperature();
+            var averageTemperature = calculationService.CalculateAverageTemperature(forecast);
             System.out.println(averageTemperature);
         } catch (IOException e) {
             System.err.println("Не удалось выполнить запрос: " + e.getMessage());
